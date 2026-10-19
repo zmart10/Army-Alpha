@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Army Alpha Training - Program 20 Hari</title>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --secondary: #37474f;
+            --accent: #d84315;
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-main: #212121;
+            --text-sub: #616161;
+            --border-color: #cfd8dc;
+            --success: #2e7d32;
+            --danger: #c62828;
+            --warning: #f57f17;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 20px;
+        }
+
+        header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-icon:hover, .btn-icon:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 12px;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+            border-bottom: 2px solid #eceff1;
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        @media (min-width: 500px) {
+            .grid-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+            transition: background 0.2s;
+            margin-top: 6px;
+        }
+
+        .btn:active {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: #000;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            margin-top: 0;
+        }
+
+        /* Voice controls */
+        .settings-panel {
+            background: #eef2f5;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .setting-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Session Cards */
+        .session-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .session-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .session-card.completed {
+            border-color: var(--success);
+            background: #e8f5e9;
+        }
+
+        .session-card.active {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 5px rgba(46,125,50,0.4);
+        }
+
+        .session-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .session-score {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        /* Test Mode Container */
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            background: #eceff1;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 900;
+            font-family: monospace;
+            color: var(--danger);
+            background: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .instruction-box {
+            background: #fff9c4;
+            border-left: 4px solid var(--warning);
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .canvas-container {
+            width: 100%;
+            background: #ffffff;
+            border: 2px solid #37474f;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 5px;
+            overflow-x: auto;
+            min-height: 180px;
+            margin-bottom: 16px;
+        }
+
+        svg.army-svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Correction & Answer Key */
+        .correction-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+
+        .correction-header {
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .key-text {
+            font-size: 0.85rem;
+            color: #333;
+            background: #e3f2fd;
+            padding: 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .status-options {
+            display: flex;
+            gap: 6px;
+        }
+
+        .opt-btn {
+            flex: 1;
+            padding: 6px 0;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .opt-btn.correct.active {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .opt-btn.wrong.active {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .opt-btn.empty.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        /* Chart Canvas */
+        .chart-box {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+        }
+
+        /* Image Preview */
+        .photo-preview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px dashed var(--border-color);
+            margin-top: 8px;
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Modal Alert */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-body {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ARMY ALPHA TRAINING</h1>
+        <div class="header-btns">
+            <button class="btn-icon" id="btnSoundToggle">🔊 ON</button>
+            <button class="btn-icon" id="btnFullscreen">⛶</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- DASHBOARD VIEW -->
+        <div id="viewDashboard">
+            <div class="card">
+                <div class="card-title">
+                    <span>PROGRAM 20 HARI</span>
+                    <span id="lblCurrentDay" style="font-size: 0.9rem; color: var(--primary);">Hari 01 / 20</span>
+                </div>
+                <div class="grid-stats">
+                    <div class="stat-box">
+                        <div class="stat-val" id="statTodaySessions">0 / 3</div>
+                        <div class="stat-lbl">Sesi Hari Ini</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="statTotalSessions">0 / 60</div>
+                        <div class="stat-lbl">Total Sesi</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="statTotalQuestions">0 / 720</div>
+                        <div class="stat-lbl">Total Soal</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="statAvgAccuracy">0%</div>
+                        <div class="stat-lbl">Rata-rata Akurasi</div>
+                    </div>
+                </div>
+
+                <div class="settings-panel">
+                    <div class="setting-row">
+                        <span>🔊 Suara:</span>
+                        <button class="btn-icon" id="btnSoundToggleSettings" style="background:var(--secondary);color:white;">ON</button>
+                    </div>
+                    <div class="setting-row">
+                        <span>🔉 Volume:</span>
+                        <input id="rangeVoiceVolume" type="range" min="0" max="100" value="100" style="width:52%;">
+                    </div>
+                    <div class="setting-row">
+                        <span>⚡ Kecepatan:</span>
+                        <select id="selectVoiceRate" style="padding: 4px 6px; border-radius: 4px;">
+                            <option value="0.7">0.7x</option>
+                            <option value="0.8">0.8x</option>
+                            <option value="0.9" selected>0.9x</option>
+                            <option value="1.0">1.0x</option>
+                            <option value="1.1">1.1x</option>
+                            <option value="1.2">1.2x</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <span>🎙️ Voice:</span>
+                        <select id="selectVoice" style="max-width:65%;padding:4px 6px;border-radius:4px;"></select>
+                    </div>
+                    <div style="font-size:.78rem;line-height:1.5;margin:8px 0;padding:8px;background:#fff;border-radius:5px;">
+                        <b>STATUS SUARA</b><br>
+                        Browser TTS: <span id="voiceBrowserStatus">memeriksa...</span><br>
+                        Voice: <span id="voiceNameStatus">memeriksa...</span><br>
+                        Status: <span id="voiceStatusText">Belum diaktifkan</span>
+                    </div>
+                    <button class="btn-icon" id="btnTestVoice" style="background:var(--secondary);color:white;width:100%;justify-content:center;">🔊 TEST SUARA</button>
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <label for="selectDay" style="font-weight: 600; font-size: 0.9rem;">Pilih Hari Latihan:</label>
+                    <select id="selectDay" style="width: 100%; padding: 8px; margin-top: 4px; border-radius: 6px; border: 1px solid var(--border-color);">
+                        <!-- Options generated dynamically -->
+                    </select>
+                </div>
+
+                <div class="session-grid" id="sessionContainer">
+                    <!-- 3 Sessions per day generated here -->
+                </div>
+            </div>
+
+            <!-- MODE LATIHAN / SIMULASI BUTTONS -->
+            <div class="card">
+                <div class="card-title">MODE PENGERJAAN</div>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 10px;">
+                    Pilih mode pengerjaan untuk sesi yang dipilih di atas:
+                </p>
+                <div class="btn-group">
+                    <button class="btn" id="btnStartLatihan">MODE LATIHAN</button>
+                    <button class="btn btn-secondary" id="btnStartSimulasi">MODE SIMULASI</button>
+                </div>
+            </div>
+
+            <!-- ANALISIS & PERKEMBANGAN -->
+            <div class="card">
+                <div class="card-title">ANALISIS & GRAFIK PERKEMBANGAN</div>
+                <div class="grid-stats">
+                    <div class="stat-box">
+                        <div class="stat-val" id="statHighAcc">0%</div>
+                        <div class="stat-lbl">Akurasi Tertinggi</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="statLowAcc">0%</div>
+                        <div class="stat-lbl">Akurasi Terendah</div>
+                    </div>
+                </div>
+                <div id="weaknessBox" style="font-size: 0.85rem; padding: 8px; background: #fff3e0; border-radius: 4px; margin-bottom: 10px; color: #e65100;">
+                    Kategori Sering Salah: Belum ada data.
+                </div>
+                <div class="chart-box">
+                    <canvas id="canvasChart"></canvas>
+                </div>
+            </div>
+
+            <!-- BACKUP & RESTORE -->
+            <div class="card">
+                <div class="card-title">MANAJEMEN DATA (BACKUP / RESTORE)</div>
+                <div class="btn-group">
+                    <button class="btn btn-outline" id="btnExportBackup">EXPORT BACKUP</button>
+                    <button class="btn btn-outline" id="btnImportBackup">IMPORT BACKUP</button>
+                    <input type="file" id="fileImport" accept=".json" class="hidden">
+                </div>
+            </div>
+        </div>
+
+        <!-- TEST VIEW -->
+        <div id="viewTest" class="hidden">
+            <div class="card">
+                <div class="test-header">
+                    <div class="question-number" id="lblQuestionNum">SOAL 1 / 12</div>
+                    <div class="timer-display" id="lblTimer">00:05</div>
+                </div>
+
+                <div class="instruction-box" id="lblInstruction">
+                    Mendengarkan instruksi...
+                </div>
+
+                <div class="canvas-container" id="visualContainer">
+                    <!-- SVG Rendered Here -->
+                </div>
+
+                <div id="voiceStatusBadge" style="margin:8px 0;text-align:center;font-weight:700;">🔇 SUARA NONAKTIF</div>
+
+                <div id="voiceActivationPanel" class="card" style="margin:10px 0;background:#f1f8e9;border:2px solid var(--primary);">
+                    <div style="font-weight:800;margin-bottom:6px;">Aktivasi Suara Diperlukan</div>
+                    <div style="font-size:.85rem;color:var(--text-sub);margin-bottom:10px;">
+                        Tekan tombol ini sekali. Chrome Android membutuhkan interaksi pengguna sebelum TTS dapat berjalan.
+                    </div>
+                    <button class="btn" id="btnActivateVoice">🔊 AKTIFKAN SUARA &amp; MULAI TES</button>
+                    <button class="btn btn-outline" id="btnReactivateVoice" style="margin-top:6px;">🔊 AKTIFKAN ULANG SUARA</button>
+                </div>
+
+                <div id="questionActionPanel" class="btn-group hidden">
+                    <button class="btn btn-outline" id="btnRepeatInstruction">🔁 ULANGI INSTRUKSI</button>
+                    <button class="btn" id="btnStartQuestion">▶️ MULAI TES</button>
+                </div>
+
+                <div class="btn-group" id="testControlGroup">
+                    <button class="btn btn-warning" id="btnMuteTest">🔊 SOUND ON</button>
+                    <button class="btn btn-danger" id="btnAbortTest">BATALKAN SESI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBMIT & PHOTO RESPONSE VIEW -->
+        <div id="viewPhoto" class="hidden">
+            <div class="card">
+                <div class="card-title">SESI SELESAI</div>
+                <p style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-sub);">
+                    Silakan foto lembar jawaban Anda untuk dokumentasi (Opsional) sebelum melanjutkan ke tahap koreksi.
+                </p>
+
+                <div class="btn-group">
+                    <label class="btn btn-secondary" style="margin-top:0;">
+                        📷 AMBIL FOTO
+                        <input type="file" accept="image/*" capture="environment" id="fileCamera" class="hidden">
+                    </label>
+                    <label class="btn btn-outline" style="margin-top:0;">
+                        📁 PILIH GALERI
+                        <input type="file" accept="image/*" id="fileGallery" class="hidden">
+                    </label>
+                </div>
+
+                <img id="imgAnswerPreview" class="photo-preview" alt="Lembar Jawaban">
+
+                <button class="btn" id="btnGoToCorrection" style="margin-top: 16px;">LANJUT KE KOREKSI & KUNCI JAWABAN</button>
+            </div>
+        </div>
+
+        <!-- CORRECTION VIEW -->
+        <div id="viewCorrection" class="hidden">
+            <div class="card">
+                <div class="card-title">KOREKSI JAWABAN (SOAL 1 - 12)</div>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 12px;">
+                    Cek hasil pengerjaan Anda pada lembar kertas fisik dengan kunci jawaban di bawah ini, lalu tandai status setiap nomor:
+                </p>
+
+                <div id="correctionList">
+                    <!-- 12 Correction items populated dynamically -->
+                </div>
+
+                <button class="btn" id="btnSaveCorrection">SIMPAN & LIHAT HASIL ANALISIS</button>
+            </div>
+        </div>
+
+        <!-- RESULT VIEW -->
+        <div id="viewResult" class="hidden">
+            <div class="card">
+                <div class="card-title">HASIL & ANALISIS SESI</div>
+                <div class="grid-stats">
+                    <div class="stat-box">
+                        <div class="stat-val" id="resCorrect" style="color: var(--success);">0</div>
+                        <div class="stat-lbl">Benar</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="resWrong" style="color: var(--danger);">0</div>
+                        <div class="stat-lbl">Salah</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="resEmpty" style="color: var(--secondary);">0</div>
+                        <div class="stat-lbl">Kosong</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-val" id="resAccuracy" style="color: var(--primary-dark);">0%</div>
+                        <div class="stat-lbl">Akurasi</div>
+                    </div>
+                </div>
+
+                <div class="card-title" style="margin-top: 12px; font-size: 0.95rem;">ANALISIS KATEGORI KESALAHAN</div>
+                <div id="resAnalysisText" style="font-size: 0.85rem; color: var(--text-main); line-height: 1.5; background: #f5f5f5; padding: 10px; border-radius: 6px; margin-bottom: 12px;">
+                    <!-- Analysis output -->
+                </div>
+
+                <button class="btn" id="btnBackToDashboard">KEMBALI KE DASHBOARD</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL CONTINUE / RESUME -->
+    <div id="modalResume" class="modal-overlay hidden">
+        <div class="modal-body">
+            <h3 style="margin-bottom: 8px;">Sesi Belum Selesai</h3>
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 16px;">
+                Ditemukan sesi pengerjaan sebelumnya yang belum diselesaikan. Apakah Anda ingin melanjutkan?
+            </p>
+            <div class="btn-group">
+                <button class="btn" id="btnResumeYes">LANJUTKAN</button>
+                <button class="btn btn-danger" id="btnResumeNo">MULAI ULANG</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           ARMY ALPHA TRAINING LOGIC & ENGINE
+           ========================================================================== */
+
+        // IndexedDB Initialization
+        const DB_NAME = 'ArmyAlphaDB';
+        const DB_VERSION = 1;
+        let db = null;
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('photos')) {
+                        db.createObjectStore('photos', { keyPath: 'sessionId' });
+                    }
+                };
+                request.onsuccess = (e) => {
+                    db = e.target.result;
+                    resolve(db);
+                };
+                request.onerror = (e) => reject(e);
+            });
+        }
+
+        function savePhotoToDB(sessionId, photoData) {
+            return new Promise((resolve, reject) => {
+                if (!db) return resolve();
+                const tx = db.transaction('photos', 'readwrite');
+                const store = tx.objectStore('photos');
+                store.put({ sessionId: sessionId, photo: photoData });
+                tx.oncomplete = () => resolve();
+                tx.onerror = (e) => reject(e);
+            });
+        }
+
+        function getPhotoFromDB(sessionId) {
+            return new Promise((resolve) => {
+                if (!db) return resolve(null);
+                const tx = db.transaction('photos', 'readonly');
+                const store = tx.objectStore('photos');
+                const req = store.get(sessionId);
+                req.onsuccess = () => resolve(req.result ? req.result.photo : null);
+                req.onerror = () => resolve(null);
+            });
+        }
+
+        // Global Application State
+        const STATE_KEY = 'army_alpha_app_state_v1';
+        let appData = {
+            currentDay: 1,
+            selectedSession: 1,
+            soundOn: true,
+            voiceRate: 0.9,
+            voiceVolume: 1,
+            selectedVoiceURI: '',
+            history: {},
+            activeTestState: null
+        };
+
+        let currentTestQuestions = [];
+        let currentQuestionIndex = 0;
+        let testTimer = null;
+        let timerSeconds = 5;
+        let timerStartTime = 0;
+        let timerDurationMs = 5000;
+        let isSimulasiMode = false;
+        let testStarted = false;
+        let currentQuestionReady = false;
+        let correctionUserAnswers = new Array(12).fill('empty');
+        let currentPhotoBase64 = null;
+
+        // ============================================================
+        // REAL OFFLINE TTS ENGINE — Chrome Android compatible
+        // ============================================================
+        const synth = ('speechSynthesis' in window) ? window.speechSynthesis : null;
+        let availableVoices = [];
+        let voiceReadyPromise = null;
+        let voiceActivated = false;
+
+        function refreshVoices() {
+            if (!synth) {
+                availableVoices = [];
+                updateVoiceUI();
+                return [];
+            }
+            availableVoices = synth.getVoices() || [];
+            updateVoiceUI();
+            return availableVoices;
+        }
+
+        if (synth) {
+            synth.onvoiceschanged = refreshVoices;
+            refreshVoices();
+        }
+
+        function waitForVoices(timeoutMs = 1800) {
+            if (!synth) return Promise.resolve([]);
+            const existing = synth.getVoices() || [];
+            if (existing.length) {
+                availableVoices = existing;
+                updateVoiceUI();
+                return Promise.resolve(existing);
+            }
+            return new Promise(resolve => {
+                let done = false;
+                const finish = () => {
+                    if (done) return;
+                    done = true;
+                    clearTimeout(timer);
+                    availableVoices = synth.getVoices() || availableVoices || [];
+                    updateVoiceUI();
+                    resolve(availableVoices);
+                };
+                const timer = setTimeout(finish, timeoutMs);
+                const oldHandler = synth.onvoiceschanged;
+                synth.onvoiceschanged = () => {
+                    if (typeof oldHandler === 'function') oldHandler();
+                    finish();
+                };
+            });
+        }
+
+        function chooseVoice() {
+            if (!availableVoices.length && synth) availableVoices = synth.getVoices() || [];
+            if (!availableVoices.length) return null;
+
+            if (appData.selectedVoiceURI) {
+                const selected = availableVoices.find(v => v.voiceURI === appData.selectedVoiceURI);
+                if (selected) return selected;
+            }
+
+            const idVoice = availableVoices.find(v =>
+                (v.lang || '').toLowerCase() === 'id-id'
+            ) || availableVoices.find(v => {
+                const hay = `${v.name || ''} ${v.lang || ''}`.toLowerCase();
+                return hay.includes('indonesia') || hay.includes('indonesian') || hay.includes('id-id');
+            });
+
+            return idVoice || availableVoices[0] || null;
+        }
+
+        function setVoiceStatus(text, active = null) {
+            const el = document.getElementById('voiceStatusText');
+            if (el) el.innerText = text;
+            const badge = document.getElementById('voiceStatusBadge');
+            if (badge && active !== null) {
+                badge.innerText = active ? '🔊 SUARA AKTIF' : '🔇 SUARA NONAKTIF';
+            }
+        }
+
+        function updateVoiceUI() {
+            const select = document.getElementById('selectVoice');
+            if (select) {
+                const current = appData.selectedVoiceURI;
+                select.innerHTML = '';
+                if (!availableVoices.length) {
+                    const opt = document.createElement('option');
+                    opt.value = '';
+                    opt.textContent = synth ? 'Voice belum tersedia' : 'TTS tidak tersedia';
+                    select.appendChild(opt);
+                } else {
+                    availableVoices.forEach((voice, i) => {
+                        const opt = document.createElement('option');
+                        opt.value = voice.voiceURI;
+                        opt.textContent = `${voice.name} (${voice.lang})`;
+                        if (voice.voiceURI === current) opt.selected = true;
+                        select.appendChild(opt);
+                    });
+                    if (!current) {
+                        const preferred = chooseVoice();
+                        if (preferred) select.value = preferred.voiceURI;
+                    }
+                }
+            }
+
+            const browser = document.getElementById('voiceBrowserStatus');
+            if (browser) browser.innerText = synth ? '✓ tersedia' : '✕ tidak tersedia';
+
+            const voiceName = document.getElementById('voiceNameStatus');
+            if (voiceName) {
+                const v = chooseVoice();
+                voiceName.innerText = v ? `${v.name} (${v.lang})` : 'Belum tersedia';
+            }
+
+            setVoiceStatus(
+                synth ? (voiceActivated ? 'AKTIF' : 'Belum diaktifkan') : 'Browser tidak mendukung Text-to-Speech',
+                synth ? voiceActivated && appData.soundOn : false
+            );
+        }
+
+        function speak(text, onEndCallback, options = {}) {
+            if (!synth) {
+                setVoiceStatus('Browser ini tidak mendukung Text-to-Speech.', false);
+                if (onEndCallback) onEndCallback({ error: 'not-supported' });
+                return null;
+            }
+
+            if (!appData.soundOn && !options.force) {
+                if (onEndCallback) onEndCallback({ muted: true });
+                return null;
+            }
+
+            synth.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(String(text));
+            const voice = chooseVoice();
+
+            utterance.lang = voice ? voice.lang : 'id-ID';
+            if (voice) utterance.voice = voice;
+            utterance.rate = Math.min(1.2, Math.max(0.7, parseFloat(appData.voiceRate) || 0.9));
+            utterance.pitch = 1;
+            utterance.volume = Math.min(1, Math.max(0, parseFloat(appData.voiceVolume) || 1));
+
+            let finished = false;
+            const done = (result) => {
+                if (finished) return;
+                finished = true;
+                if (onEndCallback) onEndCallback(result);
+            };
+
+            utterance.onend = () => done({ ended: true });
+            utterance.onerror = (event) => {
+                setVoiceStatus('Suara gagal: tekan AKTIFKAN ULANG SUARA.', false);
+                done({ error: event && event.error ? event.error : 'speech-error' });
+            };
+
+            try {
+                synth.speak(utterance);
+                setVoiceStatus('AKTIF', true);
+            } catch (err) {
+                setVoiceStatus('Suara tidak dapat dijalankan.', false);
+                done({ error: 'speak-exception' });
+            }
+            return utterance;
+        }
+
+        // Backward-compatible name used by existing UI.
+        function speakText(text, onEndCallback) {
+            return speak(text, onEndCallback);
+        }
+
+        async function activateVoiceAndBeginTest() {
+            if (!synth) {
+                setVoiceStatus('Browser ini tidak mendukung Text-to-Speech.', false);
+                alert('Browser ini tidak mendukung Text-to-Speech.');
+                return;
+            }
+
+            voiceActivated = true;
+            setVoiceStatus('Mengaktifkan suara...', true);
+
+            // This call is deliberately inside the user's tap/click handler.
+            refreshVoices();
+            await waitForVoices();
+
+            synth.cancel();
+
+            speak('Suara aktif. Persiapkan kertas Anda.', () => {
+                speak('Tes akan dimulai.', () => {
+                    runQuestion(0);
+                });
+            }, { force: true });
+        }
+
+        function testVoice() {
+            if (!synth) {
+                setVoiceStatus('Browser ini tidak mendukung Text-to-Speech.', false);
+                alert('Browser ini tidak mendukung Text-to-Speech.');
+                return;
+            }
+            voiceActivated = true;
+            refreshVoices();
+            waitForVoices().then(() => {
+                speak('Tes suara Army Alpha berhasil.', null, { force: true });
+            });
+        }
+
+        function updateSoundControls() {
+            const btn = document.getElementById('btnSoundToggle');
+            if (btn) btn.innerText = appData.soundOn ? '🔊 ON' : '🔇 OFF';
+            const mute = document.getElementById('btnMuteTest');
+            if (mute) mute.innerText = appData.soundOn ? '🔊 SOUND ON' : '🔇 MUTE';
+            updateVoiceUI();
+        }
+
+        // SEED & VARIATION GENERATOR FOR 12 EXACT QUESTION TYPES
+        // NO RANDOM ORDER! ALWAYS 1 -> 12.
+        
+        function getSeedForSession(day, session) {
+            return (day * 10) + session;
+        }
+
+        function pseudoRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
+        function getRandomElement(arr, seed) {
+            return arr[Math.floor(pseudoRandom(seed) * arr.length)];
+        }
+
+        function getRandomInt(min, max, seed) {
+            return Math.floor(pseudoRandom(seed) * (max - min + 1)) + min;
+        }
+
+        // 12 QUESTION GENERATORS MATCHING REFERENCE EXACTLY
+        const questionGenerators = {
+            // TYPE 1: 5 Circles with a letter or cross target
+            gen1: (seed) => {
+                const posCross = getRandomInt(1, 5, seed);
+                let posLetter = getRandomInt(1, 5, seed + 1);
+                while (posLetter === posCross) {
+                    posLetter = (posLetter % 5) + 1;
+                }
+                const letter = getRandomElement(['A', 'B', 'X', 'M', 'K', 'N', 'P', 'R'], seed + 2);
+                
+                return {
+                    type: 1,
+                    instruction: `Lihatlah lingkaran-lingkaran pada soal No. 1. Buatlah sebuah silang dalam lingkaran ke-${posCross} dan sebuah huruf ${letter} dalam lingkaran ke-${posLetter}.`,
+                    key: `Silang pada lingkaran ${posCross}, huruf ${letter} pada lingkaran ${posLetter}`,
+                    renderParams: { circlesCount: 5 }
+                };
+            },
+
+            // TYPE 2: 9 Numbered Circles with line passing under/over
+            gen2: (seed) => {
+                const start = getRandomInt(1, 4, seed);
+                const end = getRandomInt(start + 3, 9, seed + 1);
+                const underPos = start + 1;
+                const overPos = start + 2;
+
+                return {
+                    type: 2,
+                    instruction: `Lihatlah No. 2. Lingkaran-lingkaran itu bernomor, dengarkan baik-baik. Tariklah sebuah garis dari lingkaran ke-${start} ke lingkaran ke-${end}. Garis itu lewat di bawah lingkaran ke-${underPos} dan di atas lingkaran ke-${overPos}.`,
+                    key: `Garis dari lingkaran ${start} ke ${end}, lewat bawah lingkaran ${underPos} & atas lingkaran ${overPos}`,
+                    renderParams: { circlesCount: 9 }
+                };
+            },
+
+            // TYPE 3: 3 Circles + "YA" / "TIDAK" text, true/false condition
+            gen3: (seed) => {
+                const facts = [
+                    { q: "pesawat udara lebih cepat dari mobil", ans: true },
+                    { q: "kucing berkaki empat", ans: true },
+                    { q: "matahari terbit di sebelah barat", ans: false },
+                    { q: "air membeku pada suhu seratus derajat celcius", ans: false },
+                    { q: "sebuah segitiga memiliki tiga sisi", ans: true },
+                    { q: "indonesia terletak di benua eropa", ans: false }
+                ];
+                const fact = facts[seed % facts.length];
+                const trueAction = getRandomElement(["buatlah koma dalam lingkaran pertama", "buatlah silang dalam lingkaran kedua", "tulis huruf A dalam lingkaran ketiga"], seed + 1);
+                const falseAction = getRandomElement(["coretlah perkataan 'TIDAK'", "coretlah perkataan 'YA'", "buatlah garis di bawah 'TIDAK'"], seed + 2);
+
+                return {
+                    type: 3,
+                    instruction: `Lihatlah soal No. 3 dan perhatikanlah baik-baik: Jika betul bahwa ${fact.q}, ${trueAction}. Jika tidak, ${falseAction}.`,
+                    key: fact.ans ? `Melakukan: ${trueAction}` : `Melakukan: ${falseAction}`,
+                    renderParams: { circlesCount: 3, textOpts: ["YA", "TIDAK"] }
+                };
+            },
+
+            // TYPE 4: 5 Circles, some numbered, trivia calculation
+            gen4: (seed) => {
+                const trivias = [
+                    { q: "Berapa harikah 1 minggu itu?", correct: 7, wrong: 5 },
+                    { q: "Berapakah jumlah kaki seekor ayam?", correct: 2, wrong: 4 },
+                    { q: "Berapakah hasil dari 5 ditambah 3?", correct: 8, wrong: 10 },
+                    { q: "Berapa bulan dalam satu tahun?", correct: 12, wrong: 10 }
+                ];
+                const item = trivias[seed % trivias.length];
+                const posCorrect = 3;
+                const posWrong = 5;
+
+                return {
+                    type: 4,
+                    instruction: `Sekarang No. 4 dan dengarkan baik-baik. Tulislah dalam lingkaran ke-${posCorrect} jawaban yang betul dari pertanyaan: "${item.q}". Dalam lingkaran ke-4 tidak dibuat suatu apapun, tetapi tulislah dalam lingkaran ke-${posWrong} jawaban yang salah dari pertanyaan tadi.`,
+                    key: `Lingkaran 3: ${item.correct}, Lingkaran 4: Kosong, Lingkaran 5: ${item.wrong}`,
+                    renderParams: { circlesCount: 5 }
+                };
+            },
+
+            // TYPE 5: Overlapping Triangle and Circle with X / Letter targets
+            gen5: (seed) => {
+                const letter = getRandomElement(['A', 'B', 'K', 'R', 'M'], seed);
+                return {
+                    type: 5,
+                    instruction: `Lihatlah segi tiga dan lingkaran pada No. 5. Dengarkan baik-baik. Buatlah sebuah silang pada bidang yang terletak dalam lingkaran tetapi tidak dalam segitiga. Dan tulislah huruf "${letter}" pada bidang yang terletak dalam lingkaran dan juga dalam segitiga.`,
+                    key: `Silang: hanya di lingkaran, Huruf ${letter}: di irisan lingkaran & segitiga`,
+                    renderParams: { type: 'overlapping_tri_circle' }
+                };
+            },
+
+            // TYPE 6: Overlapping Circle, Square, and Triangle
+            gen6: (seed) => {
+                const l1 = getRandomElement(['X', 'A', 'M', 'P'], seed);
+                const l2 = getRandomElement(['Y', 'B', 'N', 'Q'], seed + 1);
+
+                return {
+                    type: 6,
+                    instruction: `Lihatlah No. 6. Dengarkan: Tulislah huruf "${l1}" pada bidang yang terletak dalam segitiga tetapi tidak dalam bujur sangkar, dan tulislah huruf "${l2}" pada bidang yang terletak dalam bujur sangkar dan segitiga tetapi tidak dalam lingkaran.`,
+                    key: `Huruf ${l1}: Segitiga tanpa bujursangkar, Huruf ${l2}: Bujursangkar & Segitiga tanpa lingkaran`,
+                    renderParams: { type: 'overlapping_three' }
+                };
+            },
+
+            // TYPE 7: Alphabet series (A B C D E F G H I J K L M N O P)
+            gen7: (seed) => {
+                const chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'];
+                const idx1 = getRandomInt(2, 6, seed); // Target E, F, etc.
+                const idx2 = getRandomInt(10, 14, seed + 1); // Target M, N, etc.
+                const char1 = chars[idx1];
+                const char2 = chars[idx2];
+
+                return {
+                    type: 7,
+                    instruction: `Lihatlah No. 7. Dengarkan baik-baik. Buatlah sebuah garis dibawah huruf yang tepat mendahului huruf ${char1}, dan buatlah pula sebuah garis yang melintang huruf kedua yang mendahului ${char2}.`,
+                    key: `Garis di bawah huruf ${chars[idx1-1]}, garis melintang pada huruf ${chars[idx2-2]}`,
+                    renderParams: { letters: chars }
+                };
+            },
+
+            // TYPE 8: 3 Circles with letters + 3 Words
+            gen8: (seed) => {
+                const wordSets = [
+                    { words: ["KAPAL", "MUATAN", "GUDANG"], letters: ['A', 'A', 'G'] },
+                    { words: ["PABRIK", "SEPATU", "KULIT"], letters: ['B', 'P', 'K'] },
+                    { words: ["MANGGA", "MANIS", "POHON"], letters: ['M', 'A', 'P'] }
+                ];
+                const set = wordSets[seed % wordSets.length];
+                
+                return {
+                    type: 8,
+                    instruction: `Lihatlah No. 8. Perhatikanlah ketiga lingkaran dan ketiga perkataan-perkataan itu. Tulislah dalam lingkaran pertama, huruf kedua dari perkataan pertama. Dalam lingkaran kedua, huruf pertama dari perkataan kedua, dan dalam lingkaran ketiga, huruf terakhir dari perkataan ketiga.`,
+                    key: `Lingkaran 1: ${set.words[0][1]}, Lingkaran 2: ${set.words[1][0]}, Lingkaran 3: ${set.words[2][set.words[2].length-1]}`,
+                    renderParams: { circles: 3, words: set.words }
+                };
+            },
+
+            // TYPE 9: Series of 2-digit numbers
+            gen9: (seed) => {
+                const numbers = [45, 87, 54, 38, 66, 78, 81, 49, 34, 41, 71, 99, 17, 82, 64, 89];
+                const targetCrossIdx = getRandomInt(2, 5, seed);
+                const targetUnderlineIdx = getRandomInt(7, 11, seed + 1);
+
+                return {
+                    type: 9,
+                    instruction: `Lihatlah No. 9. Coretlah angka ke-${targetCrossIdx+1} dan buatlah garis di bawah angka ke-${targetUnderlineIdx+1}.`,
+                    key: `Coret angka ${numbers[targetCrossIdx]}, garis bawah angka ${numbers[targetUnderlineIdx]}`,
+                    renderParams: { numbers: numbers }
+                };
+            },
+
+            // TYPE 10: Grid box with numbers and blank cells
+            gen10: (seed) => {
+                const gridData = [8, 2, 3, 4, '', '', '', 6];
+                const fillVal = getRandomInt(1, 9, seed);
+
+                return {
+                    type: 10,
+                    instruction: `Lihatlah No. 10. Dengarkan: Tulislah angka ${fillVal} pada kotak kosong ke-2 dari kiri.`,
+                    key: `Angka ${fillVal} ditulis pada kotak kosong ke-2 (kolom ke-6)`,
+                    renderParams: { grid: gridData }
+                };
+            },
+
+            // TYPE 11: Mixed Geometric shapes with letters/numbers inside
+            gen11: (seed) => {
+                const shapes = [
+                    { type: 'circle', text: 'GA' },
+                    { type: 'rect', text: '7' },
+                    { type: 'triangle', text: '' },
+                    { type: 'circle', text: '7' },
+                    { type: 'triangle', text: '8' },
+                    { type: 'rect', text: '2F' },
+                    { type: 'circle', text: '5P' },
+                    { type: 'rect', text: '' },
+                    { type: 'triangle', text: '' }
+                ];
+
+                return {
+                    type: 11,
+                    instruction: `Lihatlah No. 11. Dengarkan: Buatlah sebuah silang pada segitiga pertama dan tuliskan angka 9 pada lingkaran yang berisi huruf 'GA'.`,
+                    key: `Silang pada segitiga pertama (objek 3), angka 9 pada lingkaran 'GA' (objek 1)`,
+                    renderParams: { shapes: shapes }
+                };
+            },
+
+            // TYPE 12: Sequence of single digits 1 to 9
+            gen12: (seed) => {
+                const seq = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                const cutIdx = getRandomInt(2, 5, seed);
+
+                return {
+                    type: 12,
+                    instruction: `Lihatlah No. 12. Buatlah sebuah garis miring melintang yang memisahkan angka ${seq[cutIdx-1]} dan ${seq[cutIdx]}.`,
+                    key: `Garis miring pemisah antara angka ${seq[cutIdx-1]} dan ${seq[cutIdx]}`,
+                    renderParams: { sequence: seq }
+                };
+            }
+        };
+
+        // Generate full 12 questions for a specific session
+        function generateSessionQuestions(day, session) {
+            const seed = getSeedForSession(day, session);
+            const questions = [];
+
+            questions.push(questionGenerators.gen1(seed + 101));
+            questions.push(questionGenerators.gen2(seed + 102));
+            questions.push(questionGenerators.gen3(seed + 103));
+            questions.push(questionGenerators.gen4(seed + 104));
+            questions.push(questionGenerators.gen5(seed + 105));
+            questions.push(questionGenerators.gen6(seed + 106));
+            questions.push(questionGenerators.gen7(seed + 107));
+            questions.push(questionGenerators.gen8(seed + 108));
+            questions.push(questionGenerators.gen9(seed + 109));
+            questions.push(questionGenerators.gen10(seed + 110));
+            questions.push(questionGenerators.gen11(seed + 111));
+            questions.push(questionGenerators.gen12(seed + 112));
+
+            return questions;
+        }
+
+        // VISUAL RENDERER FOR ARMY ALPHA QUESTION TYPES (SVG)
+        function renderQuestionVisual(q) {
+            const container = document.getElementById('visualContainer');
+            container.innerHTML = '';
+
+            let svgHtml = '';
+
+            switch(q.type) {
+                case 1:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 450 70" width="100%">`;
+                    for(let i=0; i<5; i++) {
+                        const cx = 45 + (i * 85);
+                        svgHtml += `<circle cx="${cx}" cy="35" r="28" stroke="#333" stroke-width="2.5" fill="none" />`;
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 2:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 500 70" width="100%">`;
+                    for(let i=0; i<9; i++) {
+                        const cx = 30 + (i * 52);
+                        svgHtml += `<circle cx="${cx}" cy="35" r="20" stroke="#333" stroke-width="2" fill="none" />`;
+                        svgHtml += `<text x="${cx}" y="41" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">${i+1}</text>`;
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 3:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 450 70" width="100%">`;
+                    for(let i=0; i<3; i++) {
+                        const cx = 45 + (i * 70);
+                        svgHtml += `<circle cx="${cx}" cy="35" r="26" stroke="#333" stroke-width="2.5" fill="none" />`;
+                    }
+                    svgHtml += `<text x="280" y="42" font-size="20" font-weight="bold" fill="#333">YA</text>`;
+                    svgHtml += `<text x="350" y="42" font-size="20" font-weight="bold" fill="#333">TIDAK</text>`;
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 4:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 450 70" width="100%">`;
+                    for(let i=0; i<5; i++) {
+                        const cx = 45 + (i * 85);
+                        svgHtml += `<circle cx="${cx}" cy="35" r="28" stroke="#333" stroke-width="2.5" fill="none" />`;
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 5:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 350 120" width="100%">
+                        <!-- Right Triangle and overlapping Circle -->
+                        <polygon points="50,100 280,100 50,20" stroke="#333" stroke-width="2.5" fill="none" />
+                        <circle cx="120" cy="55" r="40" stroke="#333" stroke-width="2.5" fill="none" />
+                    </svg>`;
+                    break;
+
+                case 6:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 350 130" width="100%">
+                        <!-- Overlapping Circle, Square, and Triangle -->
+                        <circle cx="110" cy="55" r="45" stroke="#333" stroke-width="2.5" fill="none" />
+                        <rect x="100" y="20" width="80" height="80" stroke="#333" stroke-width="2.5" fill="none" />
+                        <polygon points="60,110 240,110 140,20" stroke="#333" stroke-width="2.5" fill="none" />
+                    </svg>`;
+                    break;
+
+                case 7:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 520 60" width="100%">`;
+                    const letters = q.renderParams.letters;
+                    for(let i=0; i<letters.length; i++) {
+                        const x = 20 + (i * 31);
+                        svgHtml += `<text x="${x}" y="38" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">${letters[i]}</text>`;
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 8:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 520 70" width="100%">`;
+                    for(let i=0; i<3; i++) {
+                        const cx = 35 + (i * 65);
+                        svgHtml += `<circle cx="${cx}" cy="35" r="24" stroke="#333" stroke-width="2.5" fill="none" />`;
+                    }
+                    const wordsText = q.renderParams.words.join("   ");
+                    svgHtml += `<text x="230" y="42" font-size="18" font-weight="bold" fill="#333">${wordsText}</text>`;
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 9:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 600 60" width="100%">`;
+                    const nums = q.renderParams.numbers;
+                    let xPos = 15;
+                    for(let i=0; i<nums.length; i++) {
+                        svgHtml += `<text x="${xPos}" y="36" font-size="15" font-weight="bold" fill="#333">${nums[i]}</text>`;
+                        xPos += 28;
+                        if(i < nums.length - 1) {
+                            svgHtml += `<text x="${xPos}" y="36" font-size="15" fill="#666">-</text>`;
+                            xPos += 12;
+                        }
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 10:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 450 70" width="100%">`;
+                    const grid = q.renderParams.grid;
+                    const cellW = 50;
+                    for(let i=0; i<8; i++) {
+                        const x = 25 + (i * cellW);
+                        svgHtml += `<rect x="${x}" y="15" width="${cellW}" height="40" stroke="#333" stroke-width="2" fill="none" />`;
+                        if(grid[i] !== '') {
+                            svgHtml += `<text x="${x + cellW/2}" y="41" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">${grid[i]}</text>`;
+                        }
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 11:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 550 80" width="100%">`;
+                    const shapes = q.renderParams.shapes;
+                    for(let i=0; i<shapes.length; i++) {
+                        const cx = 30 + (i * 58);
+                        const sh = shapes[i];
+
+                        if(sh.type === 'circle') {
+                            svgHtml += `<circle cx="${cx}" cy="40" r="22" stroke="#333" stroke-width="2" fill="none" />`;
+                            svgHtml += `<text x="${cx}" y="45" font-size="13" font-weight="bold" text-anchor="middle" fill="#333">${sh.text}</text>`;
+                        } else if(sh.type === 'rect') {
+                            svgHtml += `<rect x="${cx-20}" y="18" width="40" height="44" stroke="#333" stroke-width="2" fill="none" />`;
+                            svgHtml += `<text x="${cx}" y="45" font-size="13" font-weight="bold" text-anchor="middle" fill="#333">${sh.text}</text>`;
+                        } else if(sh.type === 'triangle') {
+                            svgHtml += `<polygon points="${cx},18 ${cx-22},62 ${cx+22},62" stroke="#333" stroke-width="2" fill="none" />`;
+                            svgHtml += `<text x="${cx}" y="52" font-size="13" font-weight="bold" text-anchor="middle" fill="#333">${sh.text}</text>`;
+                        }
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+
+                case 12:
+                    svgHtml = `<svg class="army-svg" viewBox="0 0 450 60" width="100%">`;
+                    const seq = q.renderParams.sequence;
+                    for(let i=0; i<seq.length; i++) {
+                        const x = 30 + (i * 45);
+                        svgHtml += `<text x="${x}" y="38" font-size="22" font-weight="bold" text-anchor="middle" fill="#333">${seq[i]}</text>`;
+                    }
+                    svgHtml += `</svg>`;
+                    break;
+            }
+
+            container.innerHTML = svgHtml;
+        }
+
+        // VIEW NAVIGATION
+        function showView(viewId) {
+            ['viewDashboard', 'viewTest', 'viewPhoto', 'viewCorrection', 'viewResult'].forEach(id => {
+                const el = document.getElementById(id);
+                if(id === viewId) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+            window.scrollTo(0,0);
+        }
+
+        // UI RENDERERS
+        function renderDashboard() {
+            // Update Stats
+            document.getElementById('lblCurrentDay').innerText = `Hari ${String(appData.currentDay).padStart(2,'0')} / 20`;
+            
+            let todayCompleted = 0;
+            let totalCompleted = 0;
+            let accuracySum = 0;
+            let maxAcc = 0;
+            let minAcc = 100;
+            let hasCompletedAny = false;
+            let wrongCategoryCounts = {};
+
+            for(let d=1; d<=20; d++) {
+                for(let s=1; s<=3; s++) {
+                    const key = `day_${d}_sess_${s}`;
+                    if(appData.history[key]) {
+                        totalCompleted++;
+                        if(d === appData.currentDay) todayCompleted++;
+
+                        const acc = appData.history[key].accuracy;
+                        accuracySum += acc;
+                        if(acc > maxAcc) maxAcc = acc;
+                        if(acc < minAcc) minAcc = acc;
+                        hasCompletedAny = true;
+
+                        // Tally wrong categories
+                        if(appData.history[key].answers) {
+                            appData.history[key].answers.forEach((ans, idx) => {
+                                if(ans === 'wrong') {
+                                    wrongCategoryCounts[idx+1] = (wrongCategoryCounts[idx+1] || 0) + 1;
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('statTodaySessions').innerText = `${todayCompleted} / 3`;
+            document.getElementById('statTotalSessions').innerText = `${totalCompleted} / 60`;
+            document.getElementById('statTotalQuestions').innerText = `${totalCompleted * 12} / 720`;
+            
+            const avgAcc = totalCompleted > 0 ? (accuracySum / totalCompleted).toFixed(1) : 0;
+            document.getElementById('statAvgAccuracy').innerText = `${avgAcc}%`;
+
+            document.getElementById('statHighAcc').innerText = hasCompletedAny ? `${maxAcc.toFixed(1)}%` : '0%';
+            document.getElementById('statLowAcc').innerText = hasCompletedAny ? `${minAcc.toFixed(1)}%` : '0%';
+
+            // Weakness analysis
+            let mostWrongSoal = null;
+            let maxWrong = 0;
+            for(let qNum in wrongCategoryCounts) {
+                if(wrongCategoryCounts[qNum] > maxWrong) {
+                    maxWrong = wrongCategoryCounts[qNum];
+                    mostWrongSoal = qNum;
+                }
+            }
+
+            if(mostWrongSoal) {
+                document.getElementById('weaknessBox').innerText = `Kategori Sering Salah: Soal No. ${mostWrongSoal} (${maxWrong}x kesalahan).`;
+            } else {
+                document.getElementById('weaknessBox').innerText = `Kategori Sering Salah: Belum ada kesalahan tercatat.`;
+            }
+
+            // Render Day Selector Options
+            const selectDay = document.getElementById('selectDay');
+            selectDay.innerHTML = '';
+            for(let i=1; i<=20; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `Hari ${String(i).padStart(2,'0')}`;
+                if(i === appData.currentDay) opt.selected = true;
+                selectDay.appendChild(opt);
+            }
+
+            renderSessionsGrid(appData.currentDay);
+            renderChart();
+        }
+
+        function renderSessionsGrid(day) {
+            const container = document.getElementById('sessionContainer');
+            container.innerHTML = '';
+
+            for(let s=1; s<=3; s++) {
+                const key = `day_${day}_sess_${s}`;
+                const sessData = appData.history[key];
+
+                const card = document.createElement('div');
+                card.className = `session-card ${sessData ? 'completed' : ''} ${appData.selectedSession === s ? 'active' : ''}`;
+                
+                let scoreText = 'Belum dikerjakan';
+                if(sessData) {
+                    scoreText = `Akurasi: ${sessData.accuracy.toFixed(0)}% (${sessData.correct}/12)`;
+                }
+
+                card.innerHTML = `
+                    <div class="session-title">SESI ${s}</div>
+                    <div style="font-size: 0.75rem; margin-top:2px; font-weight:600;">12 SOAL</div>
+                    <div class="session-score">${scoreText}</div>
+                `;
+
+                card.onclick = () => {
+                    appData.selectedSession = s;
+                    saveStateToLocalStorage();
+                    renderSessionsGrid(day);
+                };
+
+                container.appendChild(card);
+            }
+        }
+
+        // CHART RENDERER (Pure HTML5 Canvas line chart)
+        function renderChart() {
+            const canvas = document.getElementById('canvasChart');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            // Adjust canvas resolution
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = 200;
+
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Fetch session accuracies sequentially
+            let points = [];
+            for(let d=1; d<=20; d++) {
+                for(let s=1; s<=3; s++) {
+                    const key = `day_${d}_sess_${s}`;
+                    if(appData.history[key]) {
+                        points.push({
+                            label: `H${d}S${s}`,
+                            acc: appData.history[key].accuracy
+                        });
+                    }
+                }
+            }
+
+            if(points.length === 0) {
+                ctx.fillStyle = '#999';
+                ctx.font = '14px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Belum ada data grafik pengerjaan', width/2, height/2);
+                return;
+            }
+
+            const padding = 30;
+            const chartW = width - (padding * 2);
+            const chartH = height - (padding * 2);
+
+            // Draw Axes
+            ctx.beginPath();
+            ctx.strokeStyle = '#cfd8dc';
+            ctx.lineWidth = 1;
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, height - padding);
+            ctx.lineTo(width - padding, height - padding);
+            ctx.stroke();
+
+            // Draw line
+            ctx.beginPath();
+            ctx.strokeStyle = '#2e7d32';
+            ctx.lineWidth = 2.5;
+
+            points.forEach((p, idx) => {
+                const x = padding + (idx / Math.max(1, points.length - 1)) * chartW;
+                const y = (height - padding) - (p.acc / 100) * chartH;
+                if(idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // Draw Dots
+            points.forEach((p, idx) => {
+                const x = padding + (idx / Math.max(1, points.length - 1)) * chartW;
+                const y = (height - padding) - (p.acc / 100) * chartH;
+
+                ctx.beginPath();
+                ctx.fillStyle = '#1b5e20';
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        // ============================================================
+        // TEST FLOW — 12 QUESTIONS, STRICT VOICE -> TIMER -> STOP ORDER
+        // ============================================================
+        function startTestSession(isSimul) {
+            isSimulasiMode = isSimul;
+            currentTestQuestions = generateSessionQuestions(appData.currentDay, appData.selectedSession);
+            currentQuestionIndex = 0;
+            testStarted = false;
+            currentQuestionReady = false;
+            voiceActivated = false;
+
+            appData.activeTestState = {
+                day: appData.currentDay,
+                session: appData.selectedSession,
+                isSimulasi: isSimul,
+                qIndex: 0
+            };
+            saveStateToLocalStorage();
+
+            showView('viewTest');
+            document.getElementById('voiceActivationPanel').classList.remove('hidden');
+            document.getElementById('questionActionPanel').classList.add('hidden');
+            document.getElementById('lblQuestionNum').innerText = 'SOAL 1 / 12';
+            document.getElementById('lblTimer').innerText = '5.0';
+            document.getElementById('lblInstruction').innerText = 'Tekan AKTIFKAN SUARA & MULAI TES untuk memulai.';
+            document.getElementById('visualContainer').innerHTML = '';
+            document.getElementById('btnRepeatInstruction').classList.toggle('hidden', isSimulasiMode);
+            updateSoundControls();
+        }
+
+        function prepareQuestion(index) {
+            if (index >= 12) {
+                finishTestSession();
+                return;
+            }
+
+            currentQuestionIndex = index;
+            currentQuestionReady = false;
+
+            if (appData.activeTestState) {
+                appData.activeTestState.qIndex = index;
+                saveStateToLocalStorage();
+            }
+
+            const q = currentTestQuestions[index];
+
+            document.getElementById('lblQuestionNum').innerText = `SOAL ${index + 1} / 12`;
+            document.getElementById('lblInstruction').innerText = q.instruction;
+            document.getElementById('lblTimer').innerText = '5.0';
+            renderQuestionVisual(q);
+
+            document.getElementById('voiceActivationPanel').classList.add('hidden');
+            document.getElementById('questionActionPanel').classList.toggle('hidden', isSimulasiMode);
+            document.getElementById('btnRepeatInstruction').classList.remove('hidden');
+            document.getElementById('btnStartQuestion').disabled = false;
+            document.getElementById('btnStartQuestion').innerText = '▶️ MULAI TES';
+
+            // "Nomor X" MUST finish before the actual instruction starts.
+            speak(`Nomor ${index + 1}.`, () => {
+                speak(q.instruction, () => {
+                    currentQuestionReady = true;
+
+                    if (isSimulasiMode) {
+                        // Simulation is automatic: instruction -> MULAI -> timer.
+                        speak('Mulai!', () => startTimerAccurate(5, () => {
+                            speak('Stop!', () => runQuestion(index + 1));
+                        }));
+                    } else {
+                        // Training: user may repeat, then presses MULAI TES.
+                        document.getElementById('btnStartQuestion').disabled = false;
+                    }
+                });
+            });
+        }
+
+        function runQuestion(index) {
+            if (index >= 12) {
+                finishTestSession();
+                return;
+            }
+            prepareQuestion(index);
+        }
+
+        function beginCurrentQuestionFromButton() {
+            if (!currentQuestionReady || testStarted) return;
+
+            testStarted = true;
+            document.getElementById('questionActionPanel').classList.add('hidden');
+            document.getElementById('btnRepeatInstruction').disabled = true;
+
+            speak('Mulai!', () => {
+                startTimerAccurate(5, () => {
+                    speak('Stop!', () => {
+                        testStarted = false;
+                        document.getElementById('btnRepeatInstruction').disabled = false;
+                        runQuestion(currentQuestionIndex + 1);
+                    });
+                });
+            });
+        }
+
+        function repeatCurrentInstruction() {
+            if (isSimulasiMode || testStarted || !currentTestQuestions[currentQuestionIndex]) return;
+            const q = currentTestQuestions[currentQuestionIndex];
+            currentQuestionReady = false;
+            speak(`Nomor ${currentQuestionIndex + 1}.`, () => {
+                speak(q.instruction, () => {
+                    currentQuestionReady = true;
+                });
+            });
+        }
+
+        function startTimerAccurate(seconds, onComplete) {
+            if (testTimer) {
+                clearTimeout(testTimer);
+                testTimer = null;
+            }
+
+            const totalMs = seconds * 1000;
+            timerDurationMs = totalMs;
+            timerStartTime = performance.now();
+            let lastShown = -1;
+
+            const tick = (now) => {
+                const elapsed = now - timerStartTime;
+                const remainingMs = Math.max(0, totalMs - elapsed);
+                const remaining = remainingMs / 1000;
+                const displayValue = Math.ceil(remaining * 10) / 10;
+
+                if (displayValue !== lastShown) {
+                    lastShown = displayValue;
+                    document.getElementById('lblTimer').innerText = Math.max(0, displayValue).toFixed(1);
+                }
+
+                if (elapsed >= totalMs) {
+                    document.getElementById('lblTimer').innerText = '0.0';
+                    testTimer = null;
+                    if (onComplete) onComplete();
+                    return;
+                }
+
+                testTimer = requestAnimationFrame(tick);
+            };
+
+            testTimer = requestAnimationFrame(tick);
+        }
+
+        function abortTest() {
+            if (testTimer) {
+                cancelAnimationFrame(testTimer);
+                clearTimeout(testTimer);
+                testTimer = null;
+            }
+            if (synth) synth.cancel();
+            testStarted = false;
+            currentQuestionReady = false;
+            appData.activeTestState = null;
+            saveStateToLocalStorage();
+            showView('viewDashboard');
+            updateSoundControls();
+        }
+
+        function finishTestSession() {
+            if (testTimer) {
+                cancelAnimationFrame(testTimer);
+                clearTimeout(testTimer);
+                testTimer = null;
+            }
+            if (synth) synth.cancel();
+
+            // Final required voice before moving to the next view.
+            const finish = () => {
+                appData.activeTestState = null;
+                saveStateToLocalStorage();
+
+                document.getElementById('imgAnswerPreview').style.display = 'none';
+                document.getElementById('imgAnswerPreview').src = '';
+                currentPhotoBase64 = null;
+                showView('viewPhoto');
+            };
+
+            if (appData.soundOn && synth) {
+                speak('Sesi selesai.', finish);
+            } else {
+                finish();
+            }
+        }
+
+        // CORRECTION & RESULT STEP
+        function setupCorrectionView() {
+            const container = document.getElementById('correctionList');
+            container.innerHTML = '';
+            correctionUserAnswers = new Array(12).fill('empty');
+
+            currentTestQuestions.forEach((q, idx) => {
+                const item = document.createElement('div');
+                item.className = 'correction-item';
+                item.innerHTML = `
+                    <div class="correction-header">
+                        <span>SOAL NO. ${idx + 1}</span>
+                    </div>
+                    <div class="key-text">🔑 Kunci: ${q.key}</div>
+                    <div class="status-options">
+                        <div class="opt-btn correct" onclick="setCorrectionStatus(${idx}, 'correct')">✓ BENAR</div>
+                        <div class="opt-btn wrong" onclick="setCorrectionStatus(${idx}, 'wrong')">✕ SALAH</div>
+                        <div class="opt-btn empty active" onclick="setCorrectionStatus(${idx}, 'empty')">— KOSONG</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            showView('viewCorrection');
+        }
+
+        function setCorrectionStatus(qIdx, status) {
+            correctionUserAnswers[qIdx] = status;
+            const items = document.querySelectorAll('.correction-item');
+            const row = items[qIdx];
+            const btns = row.querySelectorAll('.opt-btn');
+
+            btns.forEach(btn => btn.classList.remove('active'));
+            if(status === 'correct') btns[0].classList.add('active');
+            else if(status === 'wrong') btns[1].classList.add('active');
+            else if(status === 'empty') btns[2].classList.add('active');
+        }
+
+        async function processAndSaveResults() {
+            let correct = 0;
+            let wrong = 0;
+            let empty = 0;
+
+            correctionUserAnswers.forEach(ans => {
+                if(ans === 'correct') correct++;
+                else if(ans === 'wrong') wrong++;
+                else empty++;
+            });
+
+            const accuracy = (correct / 12) * 100;
+            const sessKey = `day_${appData.currentDay}_sess_${appData.selectedSession}`;
+
+            appData.history[sessKey] = {
+                mode: isSimulasiMode ? 'SIMULASI' : 'LATIHAN',
+                date: new Date().toISOString(),
+                answers: correctionUserAnswers,
+                correct: correct,
+                wrong: wrong,
+                empty: empty,
+                accuracy: accuracy,
+                questions: currentTestQuestions.map(q => ({ instruction: q.instruction, key: q.key }))
+            };
+
+            saveStateToLocalStorage();
+
+            // Save photo to IndexedDB if attached
+            if(currentPhotoBase64) {
+                await savePhotoToDB(sessKey, currentPhotoBase64);
+            }
+
+            // Display Results
+            document.getElementById('resCorrect').innerText = correct;
+            document.getElementById('resWrong').innerText = wrong;
+            document.getElementById('resEmpty').innerText = empty;
+            document.getElementById('resAccuracy').innerText = `${accuracy.toFixed(1)}%`;
+
+            // Categorical Error Analysis
+            let wrongIndices = [];
+            correctionUserAnswers.forEach((ans, idx) => {
+                if(ans === 'wrong' || ans === 'empty') wrongIndices.push(idx + 1);
+            });
+
+            let analysisText = '';
+            if(wrongIndices.length === 0) {
+                analysisText = 'Sempurna! Anda menjawab seluruh 12 soal dengan benar. Pertahankan kecepatan pendengaran dan ketelitian instruksi Anda.';
+            } else {
+                analysisText = `Catatan Latihan: Terdapat catatan pada soal nomor: ${wrongIndices.join(', ')}.<br>`;
+                analysisText += `Saran: Fokus latihan pendengaran pada tipe instruksi bertingkat (seperti soal nomor 5, 6, dan 11) serta pengolahan deret/urutan cepat.`;
+            }
+
+            document.getElementById('resAnalysisText').innerHTML = analysisText;
+
+            showView('viewResult');
+        }
+
+        // BACKUP EXPORT & IMPORT
+        function exportBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `Army_Alpha_Backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importBackup(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if(parsed && parsed.history) {
+                        appData = parsed;
+                        saveStateToLocalStorage();
+                        renderDashboard();
+                        alert('Data backup berhasil di-import!');
+                    } else {
+                        alert('Format file backup tidak valid.');
+                    }
+                } catch(err) {
+                    alert('Gagal membaca file backup JSON.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // LOCAL STORAGE STATE MANAGEMENT
+        function saveStateToLocalStorage() {
+            localStorage.setItem(STATE_KEY, JSON.stringify(appData));
+        }
+
+        function loadStateFromLocalStorage() {
+            const stored = localStorage.getItem(STATE_KEY);
+            if(stored) {
+                try {
+                    appData = Object.assign(appData, JSON.parse(stored));
+                } catch(e) {
+                    console.error("Failed to parse app state", e);
+                }
+            }
+        }
+
+        // EVENT LISTENERS & INITIALIZATION
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initDB();
+            loadStateFromLocalStorage();
+
+            // Migrate older saved settings safely.
+            if (typeof appData.voiceRate !== 'number') appData.voiceRate = 0.9;
+            if (typeof appData.voiceVolume !== 'number') appData.voiceVolume = 1;
+            if (typeof appData.selectedVoiceURI !== 'string') appData.selectedVoiceURI = '';
+
+            refreshVoices();
+            updateVoiceUI();
+
+            const btnSound = document.getElementById('btnSoundToggle');
+            const btnSoundSettings = document.getElementById('btnSoundToggleSettings');
+
+            function toggleSound() {
+                appData.soundOn = !appData.soundOn;
+                if (!appData.soundOn && synth) synth.cancel();
+                updateSoundControls();
+                saveStateToLocalStorage();
+            }
+
+            btnSound.onclick = toggleSound;
+            btnSoundSettings.onclick = toggleSound;
+
+            document.getElementById('btnFullscreen').onclick = () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(e => console.log(e));
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            };
+
+            const rateSelect = document.getElementById('selectVoiceRate');
+            rateSelect.value = String(appData.voiceRate);
+            rateSelect.onchange = (e) => {
+                appData.voiceRate = parseFloat(e.target.value);
+                saveStateToLocalStorage();
+            };
+
+            const volumeRange = document.getElementById('rangeVoiceVolume');
+            volumeRange.value = Math.round((appData.voiceVolume ?? 1) * 100);
+            volumeRange.oninput = (e) => {
+                appData.voiceVolume = parseInt(e.target.value, 10) / 100;
+                saveStateToLocalStorage();
+            };
+
+            document.getElementById('selectVoice').onchange = (e) => {
+                appData.selectedVoiceURI = e.target.value;
+                saveStateToLocalStorage();
+                updateVoiceUI();
+            };
+
+            document.getElementById('btnTestVoice').onclick = testVoice;
+
+            document.getElementById('selectDay').onchange = (e) => {
+                appData.currentDay = parseInt(e.target.value);
+                appData.selectedSession = 1;
+                saveStateToLocalStorage();
+                renderDashboard();
+            };
+
+            // Mode Selection
+            document.getElementById('btnStartLatihan').onclick = () => startTestSession(false);
+            document.getElementById('btnStartSimulasi').onclick = () => startTestSession(true);
+
+            // REAL USER-GESTURE TTS ACTIVATION — critical for Chrome Android.
+            document.getElementById('btnActivateVoice').onclick = activateVoiceAndBeginTest;
+            document.getElementById('btnReactivateVoice').onclick = async () => {
+                if (!synth) {
+                    setVoiceStatus('Browser ini tidak mendukung Text-to-Speech.', false);
+                    return;
+                }
+                voiceActivated = true;
+                refreshVoices();
+                await waitForVoices();
+                speak('Suara aktif kembali.', () => {
+                    setVoiceStatus('AKTIF', true);
+                }, { force: true });
+            };
+
+            document.getElementById('btnStartQuestion').onclick = beginCurrentQuestionFromButton;
+            document.getElementById('btnRepeatInstruction').onclick = repeatCurrentInstruction;
+
+            document.getElementById('btnMuteTest').onclick = () => {
+                appData.soundOn = !appData.soundOn;
+                if (!appData.soundOn && synth) synth.cancel();
+                updateSoundControls();
+                saveStateToLocalStorage();
+            };
+
+            document.getElementById('btnAbortTest').onclick = abortTest;
+
+            // Photo Step Handlers
+            const handlePhotoSelect = (e) => {
+                const file = e.target.files[0];
+                if(file) {
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        currentPhotoBase64 = evt.target.result;
+                        const img = document.getElementById('imgAnswerPreview');
+                        img.src = currentPhotoBase64;
+                        img.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            document.getElementById('fileCamera').onchange = handlePhotoSelect;
+            document.getElementById('fileGallery').onchange = handlePhotoSelect;
+            document.getElementById('btnGoToCorrection').onclick = () => setupCorrectionView();
+            document.getElementById('btnSaveCorrection').onclick = processAndSaveResults;
+
+            document.getElementById('btnBackToDashboard').onclick = () => {
+                renderDashboard();
+                showView('viewDashboard');
+            };
+
+            // Backup Handlers
+            document.getElementById('btnExportBackup').onclick = exportBackup;
+            document.getElementById('btnImportBackup').onclick = () => {
+                document.getElementById('fileImport').click();
+            };
+            document.getElementById('fileImport').onchange = (e) => {
+                if(e.target.files[0]) importBackup(e.target.files[0]);
+            };
+
+            // Resume Session Check: never auto-speak on page load.
+            if(appData.activeTestState) {
+                document.getElementById('modalResume').classList.remove('hidden');
+            } else {
+                renderDashboard();
+                showView('viewDashboard');
+            }
+
+            document.getElementById('btnResumeYes').onclick = () => {
+                document.getElementById('modalResume').classList.add('hidden');
+                appData.currentDay = appData.activeTestState.day;
+                appData.selectedSession = appData.activeTestState.session;
+                isSimulasiMode = appData.activeTestState.isSimulasi;
+                currentTestQuestions = generateSessionQuestions(appData.currentDay, appData.selectedSession);
+                currentQuestionIndex = appData.activeTestState.qIndex || 0;
+                voiceActivated = false;
+                testStarted = false;
+                showView('viewTest');
+                document.getElementById('voiceActivationPanel').classList.remove('hidden');
+                document.getElementById('questionActionPanel').classList.add('hidden');
+                document.getElementById('lblInstruction').innerText = 'Tekan AKTIFKAN SUARA & MULAI TES untuk melanjutkan.';
+                document.getElementById('visualContainer').innerHTML = '';
+            };
+
+            document.getElementById('btnResumeNo').onclick = () => {
+                document.getElementById('modalResume').classList.add('hidden');
+                appData.activeTestState = null;
+                saveStateToLocalStorage();
+                renderDashboard();
+                showView('viewDashboard');
+            };
+
+            updateSoundControls();
+        });
+    </script>
+</body>
+</html>
